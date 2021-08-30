@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ComicBookStore.Models
 {
-    public class CategoryType
+    public class ProductSpecification
     {
         public int ID { get; set; }
 
@@ -16,10 +16,10 @@ namespace ComicBookStore.Models
         public string Name { get; set; }
 
         [Required]
-        [Display(Name = "Name")]
-        public bool IsActive { get; set; }
+        public int ProductTypeID { get; set; }
+        public ProductType ProductType { get; set; }
 
-        public ICollection<Product> Products { get; set; }
+        public ICollection<ProductSpecificationValue> ProductSpecificationValues { get; set; }
 
     }
 }

@@ -1,0 +1,130 @@
+﻿@model ComicBookStore.Models.ViewModels.CreateProductViewModel
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Product</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <select class="form-select form-control" aria-label="Category Type" asp-for="CategoryTypeID">
+                    <option value="" selected>Select Category Type</option>
+                    @foreach (var item in Model.CategoryTypes)
+                    {
+                        <option value="@(item.ID)">@item.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="CategoryTypeID" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <select class="form-select form-control product-type" aria-label="Product Type" asp-for="ProductTypeID">
+                    <option value="" selected>Select Product Type</option>
+                    @foreach (var item in Model.ProductTypes)
+                    {
+                        <option value="@(item.ID)">@item.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="ProductTypeID" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RegularPrice" class="control-label"></label>
+                <input asp-for="RegularPrice" class="form-control" />
+                <span asp-validation-for="RegularPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DiscountPrice" class="control-label"></label>
+                <input asp-for="DiscountPrice" class="form-control" />
+                <span asp-validation-for="DiscountPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IsActive" class="control-label"></label>
+                <input asp-for="IsActive" class="form-control" />
+                <span asp-validation-for="IsActive" class="text-danger"></span>
+            </div>
+
+            @* Product Specifications will show when the Product Type is selected *@
+            <div id="product-specifications"></div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function () {
+            // NOTE: asp-for="ProductTypeID" is converted to name="ProductTypeID"
+            $('select[name="ProductTypeID"]').change(function () {
+
+                var productTypeId = $(this).val();
+                if (productTypeId === "" || productTypeId === null) {
+
+                    $("#product-specifications").slideUp(function () {
+                        $(this).empty();
+                    });
+
+                } else {
+
+                    $("#product-specifications").empty();
+
+                    $.ajax({
+                        url: `GetProductSpecificationsByProductTypeId/${productTypeId}`,
+                        type: "GET",
+                        contentType: "application/json",
+                        success: function (result) {
+
+                            @*<input type="hidden" id="ProductSpecificationNameValue_${i}]__ProductSpecificationValueID" name="ProductSpecificationNameValue[${i}].ProductSpecificationValueID" value="${id}" class="form-control" />*@
+                            for (var i = 0; i < result.length; i++) {
+
+                                let name = result[i].name;
+                                let id = result[i].id;
+                                $("#product-specifications").prepend(
+                                    `<div class="form-group">
+                                        <label class="control-label">${name}</label>
+                                        <input type="text" id="ProductSpecificationNameValue_${i}__Value" name="ProductSpecificationNameValue[${i}].Value" class="form-control" />
+                                        <input type="hidden" id="ProductSpecificationNameValue_${i}__Name" value="${name}" name="ProductSpecificationNameValue[${i}].Name" class="form-control" />
+                                        <input type="hidden" id="ProductSpecificationNameValue_${i}__ProductSpecificationID" name="ProductSpecificationNameValue[${i}].ProductSpecificationID" value="${id}" class="form-control" />
+                                        <span asp-validation-for="ProductSpecificationNameValue[${i}].Value" class="text-danger"></span>
+                                    </div>`
+                                ).slideDown();
+                            }
+
+                            $("#product-specifications").hide().prepend("<h4>Product Specifications</h4><hr />").slideDown();
+                        },
+                        error: function (error) {
+                            console.log(error.responseText);
+                        }
+                    })
+                }
+                
+            });
+        });
+    </script>
+}

@@ -43,6 +43,15 @@ namespace ComicBookStore
 
             services.AddScoped<ICategoryTypeRepository, CategoryTypeRepository>();
             services.AddScoped<CategoryTypeService>();
+
+            services.AddScoped<IProductSpecificationRepository, ProductSpecificationRepository>();
+            services.AddScoped<ProductSpecificationService>();
+
+            services.AddScoped<IProductSpecificationValueRepository, ProductSpecificationValueRepository>();
+            services.AddScoped<ProductSpecificationValueService>();
+
+            services.AddScoped<IProductsRepository, ProductsRepository>();
+            services.AddScoped<ProductsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
