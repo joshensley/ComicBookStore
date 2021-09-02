@@ -1,0 +1,57 @@
+﻿@model IEnumerable<ComicBookStore.Repositories.DTO.ProductInventoryDTO>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-controller="ProductInventory" asp-action="Create">Create</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr class="text-center">
+            <th>
+                @Html.DisplayNameFor(model => model.ProductCategoryName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductTypeName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductIsActive)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.ProductRegularPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductDiscountPrice)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.ProductInventory)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr class="text-center">
+                <td>@Html.DisplayFor(modelItem => item.ProductCategoryName)</td>
+                <td>@Html.DisplayFor(modelItem => item.ProductTypeName)</td>
+                <td>@Html.DisplayFor(modelItem => item.ProductName)</td>
+                <td>@Html.DisplayFor(modelItem => item.ProductIsActive)</td>
+                @*<td>@Html.DisplayFor(modelItem => item.ProductRegularPrice)</td>
+                <td>@Html.DisplayFor(modelItem => item.ProductDiscountPrice)</td>*@
+                <td>
+                    <a asp-controller="ProductInventory" asp-action="Details" asp-route-id="@item.ID">
+                        @item.ProductInventory.Count()
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+    
+</table>

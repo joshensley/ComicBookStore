@@ -23,6 +23,7 @@ namespace ComicBookStore.Repositories
         public async Task<ActionResult<IEnumerable<TResult>>> Get<TResult>(Expression<Func<Product, TResult>> selector)
         {
             var products = await _db.Products
+                .OrderBy(p => p.Name)
                 .Include(p => p.ProductSpecificationValues)
                     .ThenInclude(p => p.ProductSpecification)
                 .Select(selector)

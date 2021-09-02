@@ -53,5 +53,7 @@ namespace ComicBookStore.Models
 
         public ICollection<ProductSpecificationValue> ProductSpecificationValues { get; set; }
 
+        public ICollection<ProductInventory> ProductInventory { get; set; }
+
     }
 }

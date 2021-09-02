@@ -9,15 +9,6 @@ using System.Threading.Tasks;
 
 namespace ComicBookStore.Repositories.DTO
 {
-   /* public class ProductSpecficationNameValue
-    {
-        public string Name { get; set; }
-        public string Value { get; set; }
-        public int ProductSpecificationID { get; set; }
-        public int ProductSpecificationValueID { get; set; }
-    }*/
-
-
     public class ProductDTO
     {
         public int ID { get; set; }

@@ -19,19 +19,10 @@ namespace ComicBookStore.Data
         public DbSet<ProductSpecification> ProductSpecification { get; set; }
         public DbSet<ProductSpecificationValue> ProductSpecificationValues { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<ProductInventory> ProductInventory { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            /*builder.Entity<ProductSpecificationValue>()
-                .HasOne(p => p.Products)
-                .WithMany()
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<ProductSpecificationValue>()
-                .HasOne(p => p.ProductSpecification)
-                .WithMany()
-                .OnDelete(DeleteBehavior.Restrict);*/
-
             base.OnModelCreating(builder);
         }
     }

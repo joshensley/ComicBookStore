@@ -1,0 +1,40 @@
+﻿@model ComicBookStore.Repositories.DTO.ProductInventoryDTO
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<h4>@Html.DisplayFor(model => model.ProductName) - Inventory</h4>
+<hr />
+
+<table class="table">
+    <thead>
+        <tr class="text-center">
+            <th>Active</th>
+            <th>Stock</th>
+            <th>Created</th>
+            <th>Updated</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ProductInventory)
+        {
+            <tr class="text-center">
+                <td>@Html.DisplayFor(modelItem => item.IsActive)</td>
+                <td>@Html.DisplayFor(modelItem => item.InStock)</td>
+                <td>@Html.DisplayFor(modelItem => item.CreatedAt)</td>
+                <td>@Html.DisplayFor(modelItem => item.UpdatedAt)</td>
+                <td>
+                    <a asp-controller="ProductInventory" asp-action="Edit" asp-route-id="@item.ID">
+                        Edit
+                    </a> |
+                    <a asp-controller="ProductInventory" asp-action="Delete" asp-route-id="@item.ID">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
