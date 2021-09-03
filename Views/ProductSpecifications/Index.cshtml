@@ -1,0 +1,35 @@
+﻿@model IEnumerable<ComicBookStore.Repositories.DTO.ProductTypeWithProductSpecificationsDTO>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<table class="table">
+    <thead>
+        <tr class="text-center">
+            <th>
+                @Html.DisplayNameFor(model => model.ProductTypeName)
+            </th>
+            <th>
+                Product Specifications
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr class="text-center">
+                <td>@Html.DisplayFor(modelItem => item.ProductTypeName)</td>
+                <td>@item.ProductSpecifications.Count()</td>
+                <td>
+                    <a asp-controller="ProductSpecifications" asp-action="Create" asp-route-id="@item.ProductTypeID">
+                        Create Product Specifications
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+    
+</table>

@@ -12,6 +12,8 @@ namespace ComicBookStore.Repositories
     {
         Task<ActionResult<IEnumerable<TResult>>> Get<TResult>(Expression<Func<ProductType, TResult>> selector);
 
+        Task<ActionResult<IEnumerable<TResult>>> GetWithProductSpecifications<TResult>(Expression<Func<ProductType, TResult>> selector);
+
         Task<ActionResult<TResult>> GetById<TResult>(int id, Expression<Func<ProductType, TResult>> selector);
 
         Task<ActionResult<bool>> Post(ProductType productType);

@@ -29,6 +29,18 @@ namespace ComicBookStore.Repositories
             return productTypes;
         }
 
+        public async Task<ActionResult<IEnumerable<TResult>>> GetWithProductSpecifications<TResult>(Expression<Func<ProductType, TResult>> selector)
+        {
+            var productTypes = await _db.ProductTypes
+                .Include(p => p.ProductSpecifications)
+                .OrderBy(p => p.Name)
+                .Select(selector)
+                .ToListAsync();
+
+            return productTypes;
+                
+        }
+
         public async Task<ActionResult<TResult>> GetById<TResult>(int id, Expression<Func<ProductType, TResult>> selector)
         {
             var productType = await _db.ProductTypes
