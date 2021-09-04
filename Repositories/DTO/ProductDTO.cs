@@ -58,7 +58,9 @@ namespace ComicBookStore.Repositories.DTO
                     DiscountPrice = product.DiscountPrice,
                     IsActive = product.IsActive,
                     CreatedAt = product.CreatedAt,
-                    UpdatedAt = product.UpdatedAt
+                    UpdatedAt = product.UpdatedAt,
+                    ProductTypeID = product.ProductTypeID,
+                    CategoryTypeID = product.CategoryTypeID
                 };
             }
         }

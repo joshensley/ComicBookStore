@@ -41,6 +41,16 @@ namespace ComicBookStore.Repositories
                 
         }
 
+        public async Task<ActionResult<TResult>> GetByIdWithProductSpecifications<TResult>(int id, Expression<Func<ProductType, TResult>> selector)
+        {
+            var productType = await _db.ProductTypes
+                .Where(p => p.ID == id)
+                .Select(selector)
+                .FirstOrDefaultAsync();
+
+            return productType;
+        }
+
         public async Task<ActionResult<TResult>> GetById<TResult>(int id, Expression<Func<ProductType, TResult>> selector)
         {
             var productType = await _db.ProductTypes

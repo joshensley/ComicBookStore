@@ -36,6 +36,12 @@ namespace ComicBookStore.Services
             return await _productsRepository.GetById(id, ProductDTO.ProductDetailSelector);
         }
 
+        // GET: Get all products by ProductTypeID
+        public async Task<ActionResult<IEnumerable<ProductDTO>>> GetProductDTOByProductTypeID(int id)
+        {
+            return await _productsRepository.GetByProductTypeId(id, ProductDTO.ProductSelector);
+        }
+
         // POST: Post product
         public async Task<ActionResult<Product>> Post(Product product)
         {

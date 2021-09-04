@@ -23,6 +23,12 @@ namespace ComicBookStore.Services
             return await _productSpecificationValueRepository.Post(productSpecificationValue);
         }
 
+        // POST: Post Product specification value range
+        public async Task<ActionResult<bool>> PostRange(List<ProductSpecificationValue> productSpecificationValues)
+        {
+            return await _productSpecificationValueRepository.PostRange(productSpecificationValues);
+        }
+
         // POST: Edit product specification value
         public async Task<ActionResult<bool>> Edit(ProductSpecificationValue productSpecificationValue)
         {

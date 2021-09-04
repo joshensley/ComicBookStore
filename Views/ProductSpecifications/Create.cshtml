@@ -1,6 +1,97 @@
-﻿
+﻿@model ComicBookStore.Repositories.DTO.ProductTypeWithProductSpecificationsDTO
 @{
     ViewData["Title"] = "Create";
 }
 
 <h1>Create</h1>
+<br />
+
+<div>
+    <h4>Current Product Specifications</h4>
+    <hr />
+    <dl class="row">
+        @foreach (var item in Model.ProductSpecifications)
+        {
+            <dt class="col-sm-4">
+                - @item.Name
+            </dt>
+            <dd class="col-sm-8">
+               
+            </dd>
+
+        }
+
+    </dl>
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-2">
+        <button id="add-product-specification" class="btn btn-primary">Add</button>
+        <button id="remove-product-specification" class="btn btn-danger">Remove</button>
+    </div>
+
+    
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div id="append-production-specification" data-myValue="@Model.ProductTypeID"></div>
+
+            <div id="create-product-specification" class="form-group" style="display: none;">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function () {
+
+            // Add Product Specification form-group
+            let i = 0;
+            $('#add-product-specification').click(function () {
+
+                let productTypeId = $("[id='append-production-specification']").attr("data-myValue");
+
+                $("#append-production-specification").append(
+                    `<div class="form-group new-product-specification">
+                        <label class="control-label">New Product Specification</label>
+                        <input type="text" id="ProductSpecification_${i}__Value" name="ProductSpecification[${i}].Name" class="form-control" />
+                        <input type="hidden" id="ProductSpecification_${i}__Value" name="ProductSpecification[${i}].ProductTypeID" value="${productTypeId}" />
+                    </div>`
+                ).slideDown();
+                i += 1;
+
+                showCreate();
+            });
+
+            // Remove Product Specification form-group
+            $('#remove-product-specification').click(function () {
+                $('#append-production-specification .form-group:last').remove();
+
+                showCreate();
+            });
+
+            // show/hide the create button
+            function showCreate() {
+                let length = $(".new-product-specification").length;
+                console.log(length);
+
+                if (length === 0) {
+                    $('#create-product-specification').fadeOut();
+                } else {
+                    $('#create-product-specification').fadeIn();
+                }
+            }
+
+            @*$('#create-product-specification').hide();*@
+            
+        });
+    </script>
+}

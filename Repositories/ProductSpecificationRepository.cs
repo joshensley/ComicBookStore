@@ -28,5 +28,12 @@ namespace ComicBookStore.Repositories
 
             return productSpecifications;
         }
+
+        public async Task<ActionResult<IEnumerable<ProductSpecification>>> PostRange(List<ProductSpecification> productSpecifications)
+        {
+            _db.ProductSpecification.AddRange(productSpecifications);
+            await _db.SaveChangesAsync();
+            return productSpecifications;
+        }
     }
 }

@@ -44,6 +44,16 @@ namespace ComicBookStore.Repositories
             return product;
         }
 
+        public async Task<ActionResult<IEnumerable<TResult>>> GetByProductTypeId<TResult>(int id, Expression<Func<Product, TResult>> selector)
+        {
+            var products = await _db.Products
+                .Where(p => p.ProductTypeID == id)
+                .Select(selector)
+                .ToListAsync();
+
+            return products;
+        }
+
         public async Task<ActionResult<Product>> Post(Product product)
         {
             _db.Products.Add(product);
@@ -58,13 +68,5 @@ namespace ComicBookStore.Repositories
             return product;
         }
 
-        /*public async Task<ActionResult<IEnumerable<TResult>>> Get<TResult>(Expression<Func<ProductViewModel, TResult>> selector)
-        {
-            var products = await _db.Products
-               .Select(selector)
-               .ToListAsync();
-
-            return products;
-        }*/
     }
 }

@@ -11,6 +11,8 @@ namespace ComicBookStore.Repositories
     {
         Task<ActionResult<bool>> Post(ProductSpecificationValue productSpecificationValue);
 
+        Task<ActionResult<bool>> PostRange(List<ProductSpecificationValue> productSpecificationValues);
+
         Task<ActionResult<bool>> Edit(ProductSpecificationValue productSpecificationValue);
     }
 }

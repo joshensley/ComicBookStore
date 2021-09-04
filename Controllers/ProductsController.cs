@@ -236,7 +236,7 @@ namespace ComicBookStore.Controllers
         }
 
         // DELETE: Products/Delete/5
-        public async Task<IActionResult> Delete(int id)
+        public IActionResult Delete(int id)
         {
             return View();
         }
