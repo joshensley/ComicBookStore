@@ -68,5 +68,30 @@ namespace ComicBookStore.Controllers
 
             return View(productType);
         }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            var productType = (await _productTypeService.GetByIdProductTypeWithProductSpecificationsDTO(id)).Value;
+
+            return View(productType);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(
+            int id,
+            [Bind("ProductSpecification")] IList<ProductSpecification> productSpecification)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = (await _productSpecificationService.EditProductSpecificationsRange(productSpecification)).Value;
+
+                if (response != null) return RedirectToAction(nameof(Index));
+            }
+
+            var productType = (await _productTypeService.GetByIdProductTypeWithProductSpecificationsDTO(id)).Value;
+
+            return View(productType);
+        }
     }
 }

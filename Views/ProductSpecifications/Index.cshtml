@@ -25,7 +25,10 @@
                 <td>@item.ProductSpecifications.Count()</td>
                 <td>
                     <a asp-controller="ProductSpecifications" asp-action="Create" asp-route-id="@item.ProductTypeID">
-                        Create Product Specifications
+                        Create
+                    </a> |
+                    <a asp-controller="ProductSpecifications" asp-action="Edit" asp-route-id="@item.ProductTypeID">
+                        Edit
                     </a>
                 </td>
             </tr>

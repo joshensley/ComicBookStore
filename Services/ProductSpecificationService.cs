@@ -42,6 +42,27 @@ namespace ComicBookStore.Services
             return await _productSpecificationRepository.PostRange(productSpecificationsRange);
         }
 
+        public async Task<ActionResult<IEnumerable<ProductSpecification>>> EditProductSpecificationsRange(IList<ProductSpecification> productSpecifications)
+        {
+            var productSpecificationsRange = productSpecifications.ToList();
+
+            /*var productSpecificationsRange = new List<ProductSpecification>();
+
+            foreach (var item in productSpecifications)
+            {
+                var productSpecification = new ProductSpecification()
+                {
+                    ID = item.ID,
+                    Name = item.Name,
+                    ProductTypeID = item.ProductTypeID
+                };
+
+                productSpecificationsRange.Add(productSpecification);
+            }*/
+
+            return await _productSpecificationRepository.EditRange(productSpecificationsRange);
+        }
+
         public List<ProductSpecificationValue> CreateProductSpecificationValueList(
             IEnumerable<ProductSpecification> productSpecifications, 
             IEnumerable<ProductDTO> products)

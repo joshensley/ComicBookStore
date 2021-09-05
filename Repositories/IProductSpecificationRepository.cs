@@ -13,5 +13,7 @@ namespace ComicBookStore.Repositories
         Task<ActionResult<IEnumerable<TResult>>> GetByProductTypeId<TResult>(int id, Expression<Func<ProductSpecification, TResult>> selector);
 
         Task<ActionResult<IEnumerable<ProductSpecification>>> PostRange(List<ProductSpecification> productSpecifications);
+
+        Task<ActionResult<IEnumerable<ProductSpecification>>> EditRange(List<ProductSpecification> productSpecifications);
     }
 }
