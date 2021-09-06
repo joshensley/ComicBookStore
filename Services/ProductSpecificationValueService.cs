@@ -34,5 +34,11 @@ namespace ComicBookStore.Services
         {
             return await _productSpecificationValueRepository.Edit(productSpecificationValue);
         }
+
+        // DELETE: Delete product specification by id
+        public async Task<ActionResult<bool>> DeleteByProductSpecificationID(int id)
+        {
+            return await _productSpecificationValueRepository.DeleteByProductSpecificationID(id);
+        }
     }
 }

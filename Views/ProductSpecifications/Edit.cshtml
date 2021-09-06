@@ -13,32 +13,21 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-           @* @foreach (var item in Model.ProductSpecifications)
-            {
-                <div class="form-group">
-                    <input type="text" asp-for="@item.Name" class="form-control" />
-                    <input type="hidden" asp-for="@Model.ProductTypeID" />
-                    <input type="hidden" asp-for="@item.ID" />
-                </div>
-            }*@
-
-
             @for (int i = 0; i < Model.ProductSpecifications.Count(); i++)
             {
                 <div class="form-group">
-                    @*<label class="control-label">Product Specification</label>*@
-                    <input type="text" 
-                           id=@($"ProductSpecification_{i}__Value") 
-                           name=@($"ProductSpecification[{i}].Name") 
-                           value="@Model.ProductSpecifications.ToList()[i].Name" 
+                    <input type="text"
+                           id=@($"ProductSpecification_{i}__Value")
+                           name=@($"ProductSpecification[{i}].Name")
+                           value="@Model.ProductSpecifications.ToList()[i].Name"
                            class="form-control" />
-                    <input type="hidden" 
-                           id=@($"ProductSpecification_{i}__Value") 
-                           name=@($"ProductSpecification[{i}].ProductTypeID") 
-                           value="@Model.ProductTypeID") />
-                    <input type="hidden" 
-                           id=@($"ProductSpecification_{i}__Value") 
-                           name=@($"ProductSpecification[{i}].ID") 
+                    <input type="hidden"
+                           id=@($"ProductSpecification_{i}__Value")
+                           name=@($"ProductSpecification[{i}].ProductTypeID")
+                           value="@Model.ProductTypeID" ) />
+                    <input type="hidden"
+                           id=@($"ProductSpecification_{i}__Value")
+                           name=@($"ProductSpecification[{i}].ID")
                            value="@Model.ProductSpecifications.ToList()[i].ID" />
                 </div>
             }
@@ -49,3 +38,7 @@
         </form>
     </div>
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

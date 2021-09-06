@@ -1,6 +1,7 @@
 ﻿using ComicBookStore.Data;
 using ComicBookStore.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +37,23 @@ namespace ComicBookStore.Repositories
             _db.ProductSpecificationValues.Update(productSpecificationValue);
             await _db.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<ActionResult<bool>> DeleteByProductSpecificationID(int id)
+        {
+            var productSpecificationValuesList = await _db.ProductSpecificationValues
+                .Where(p => p.ProductSpecificationID == id)
+                .ToListAsync();
+
+            if (productSpecificationValuesList == null)
+            {
+                return false;
+            }
+
+            _db.ProductSpecificationValues.RemoveRange(productSpecificationValuesList);
+            await _db.SaveChangesAsync();
+            return true;
+
         }
     }
 }

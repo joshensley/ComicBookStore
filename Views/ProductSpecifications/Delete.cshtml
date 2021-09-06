@@ -1,0 +1,58 @@
+﻿@model ComicBookStore.Repositories.DTO.ProductTypeWithProductSpecificationsDTO
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete Product Specifications</h1>
+<h4>@Model.ProductTypeName</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <h6>Select Product Specification to Delete</h6>
+            <div class="list-group">
+                @foreach (var item in Model.ProductSpecifications)
+                {
+                    <button type="button" 
+                            id="@item.ID" 
+                            class="list-group-item list-group-item-action" 
+                            onclick=@($"Delete({item.ID})")>
+                                @item.Name
+                    </button>
+                }
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        function Delete(id) {
+            event.preventDefault();
+
+            var answer = confirm("Are you sure you want to Delete?");
+            if (answer) {
+                var antiForgeryToken = $("input[name=__RequestVerificationToken]").val();
+
+                $.ajax({
+                    url: "/ProductSpecifications/DeleteAction/" + id,
+                    type: "POST",
+                    contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                    dataType: "json",
+                    data: {
+                        __RequestVerificationToken: antiForgeryToken
+                    },
+                    success: function (result) {
+                        console.log(`#${result}`);
+
+                        $(`#${result}`).fadeOut();
+                    },
+                    error: function (errorMessage) {
+                        alert(errorMessage.responseText);
+                    }
+                });
+            }
+        }
+    </script>
+}

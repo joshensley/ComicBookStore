@@ -43,5 +43,20 @@ namespace ComicBookStore.Repositories
             return productSpecifications;
         }
 
+        public async Task<ActionResult<bool>> Delete(int id)
+        {
+            ProductSpecification productSpecification = await _db.ProductSpecification
+                .Where(p => p.ID == id)
+                .FirstOrDefaultAsync();
+
+            if (productSpecification == null)
+            {
+                return false;
+            }
+
+            _db.Remove(productSpecification);
+            await _db.SaveChangesAsync();
+            return true;
+        }
     }
 }

@@ -15,5 +15,7 @@ namespace ComicBookStore.Repositories
         Task<ActionResult<IEnumerable<ProductSpecification>>> PostRange(List<ProductSpecification> productSpecifications);
 
         Task<ActionResult<IEnumerable<ProductSpecification>>> EditRange(List<ProductSpecification> productSpecifications);
+
+        Task<ActionResult<bool>> Delete(int id);
     }
 }

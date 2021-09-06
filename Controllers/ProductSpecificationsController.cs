@@ -93,5 +93,30 @@ namespace ComicBookStore.Controllers
 
             return View(productType);
         }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var productType = (await _productTypeService.GetByIdProductTypeWithProductSpecificationsDTO(id)).Value;
+
+            return View(productType);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult<int>> DeleteAction(int id)
+        {
+            // Delete ProductSpecificationValue List
+            var productSpecificationValue = (await _productSpecificationValueService.DeleteByProductSpecificationID(id)).Value;
+
+            // Delete ProductSpecification
+            var productSpecification = (await _productSpecificationService.DeleteProductSpecificationByID(id)).Value;
+
+            if (productSpecification == true && productSpecificationValue == true)
+            {
+                return id;
+            }
+
+            return NotFound();
+        }
     }
 }

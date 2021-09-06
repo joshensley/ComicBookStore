@@ -24,6 +24,7 @@ namespace ComicBookStore.Services
             return await _productSpecificationRepository.GetByProductTypeId(id, ProductSpecificationDTO.ProductSpecificationSelector);
         }
 
+        // POST: Post product specification range
         public async Task<ActionResult<IEnumerable<ProductSpecification>>> PostProductSpecificationRange(IList<ProductSpecification> productSpecifications)
         {
             var productSpecificationsRange = new List<ProductSpecification>();
@@ -42,27 +43,21 @@ namespace ComicBookStore.Services
             return await _productSpecificationRepository.PostRange(productSpecificationsRange);
         }
 
+        // EDIT: Edit Product Specification Range
         public async Task<ActionResult<IEnumerable<ProductSpecification>>> EditProductSpecificationsRange(IList<ProductSpecification> productSpecifications)
         {
             var productSpecificationsRange = productSpecifications.ToList();
 
-            /*var productSpecificationsRange = new List<ProductSpecification>();
-
-            foreach (var item in productSpecifications)
-            {
-                var productSpecification = new ProductSpecification()
-                {
-                    ID = item.ID,
-                    Name = item.Name,
-                    ProductTypeID = item.ProductTypeID
-                };
-
-                productSpecificationsRange.Add(productSpecification);
-            }*/
-
             return await _productSpecificationRepository.EditRange(productSpecificationsRange);
         }
 
+        // DELETE: Delete product specification
+        public async Task<ActionResult<bool>> DeleteProductSpecificationByID(int id)
+        {
+            return await _productSpecificationRepository.Delete(id);
+        }
+
+        // POST: Create product specificaiton value range
         public List<ProductSpecificationValue> CreateProductSpecificationValueList(
             IEnumerable<ProductSpecification> productSpecifications, 
             IEnumerable<ProductDTO> products)
@@ -87,5 +82,7 @@ namespace ComicBookStore.Services
 
             return productSpecificationValues;
         }
+
+        
     }
 }

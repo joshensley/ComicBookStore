@@ -14,5 +14,7 @@ namespace ComicBookStore.Repositories
         Task<ActionResult<bool>> PostRange(List<ProductSpecificationValue> productSpecificationValues);
 
         Task<ActionResult<bool>> Edit(ProductSpecificationValue productSpecificationValue);
+
+        Task<ActionResult<bool>> DeleteByProductSpecificationID(int id);
     }
 }
