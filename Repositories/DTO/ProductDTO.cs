@@ -45,6 +45,8 @@ namespace ComicBookStore.Repositories.DTO
 
         public IEnumerable<ProductSpecificationNameValue> ProductSpecficationNameValue { get; set; }
 
+        public IEnumerable<ProductImage> ProductImages { get; set; }
+
         public static Expression<Func<Product, ProductDTO>> ProductSelector
         {
             get
@@ -89,6 +91,15 @@ namespace ComicBookStore.Repositories.DTO
                             Value = p.Value,
                             ProductSpecificationID = p.ProductSpecification.ID,
                             ProductSpecificationValueID = p.ID
+                        }),
+                    ProductImages = product.ProductImages
+                        .Select(p => new ProductImage()
+                        {
+                            ID = p.ID,
+                            ImageFileName = p.ImageFileName,
+                            IsFeature = p.IsFeature,
+                            CreatedAt = p.CreatedAt,
+                            UpdatedAt = p.UpdatedAt
                         })
                 };
             }

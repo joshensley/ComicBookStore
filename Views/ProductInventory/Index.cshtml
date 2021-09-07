@@ -24,12 +24,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.ProductIsActive)
             </th>
-            @*<th>
-                @Html.DisplayNameFor(model => model.ProductRegularPrice)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProductDiscountPrice)
-            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.ProductInventory)
             </th>
@@ -43,8 +37,6 @@
                 <td>@Html.DisplayFor(modelItem => item.ProductTypeName)</td>
                 <td>@Html.DisplayFor(modelItem => item.ProductName)</td>
                 <td>@Html.DisplayFor(modelItem => item.ProductIsActive)</td>
-                @*<td>@Html.DisplayFor(modelItem => item.ProductRegularPrice)</td>
-                <td>@Html.DisplayFor(modelItem => item.ProductDiscountPrice)</td>*@
                 <td>
                     <a asp-controller="ProductInventory" asp-action="Details" asp-route-id="@item.ID">
                         @item.ProductInventory.Count()

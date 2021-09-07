@@ -26,6 +26,7 @@ namespace ComicBookStore.Repositories
                 .OrderBy(p => p.Name)
                 .Include(p => p.ProductSpecificationValues)
                     .ThenInclude(p => p.ProductSpecification)
+                .Include(p => p.ProductImages)
                 .Select(selector)
                 .ToListAsync();
 
@@ -38,6 +39,7 @@ namespace ComicBookStore.Repositories
                 .Where(p => p.ID == id)
                 .Include(p => p.ProductSpecificationValues)
                     .ThenInclude(p => p.ProductSpecification)
+                .Include(p => p.ProductImages)
                 .Select(selector)
                 .FirstOrDefaultAsync();
 
