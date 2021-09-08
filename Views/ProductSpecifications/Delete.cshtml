@@ -44,8 +44,6 @@
                         __RequestVerificationToken: antiForgeryToken
                     },
                     success: function (result) {
-                        console.log(`#${result}`);
-
                         $(`#${result}`).fadeOut();
                     },
                     error: function (errorMessage) {

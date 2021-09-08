@@ -8,7 +8,6 @@
 <table class="table">
     <thead>
         <tr>
-            <th></th>
             <th>
                 @Html.DisplayNameFor(model => model.ProductTypeName)
             </th>
@@ -16,19 +15,7 @@
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.RegularPrice)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DiscountPrice)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.IsActive)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedAt)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UpdatedAt)
             </th>
             <th></th>
         </tr>
@@ -37,19 +24,12 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>
-                    dropdown list
-                </td>
                 <td>@Html.DisplayFor(modelItem => item.ProductTypeName)</td>
                 <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                <td>@Html.DisplayFor(modelItem => item.RegularPrice)</td>
-                <td>@Html.DisplayFor(modelItem => item.DiscountPrice)</td>
                 <td>@Html.DisplayFor(modelItem => item.IsActive)</td>
-                <td>@Html.DisplayFor(modelItem => item.CreatedAt)</td>
-                <td>@Html.DisplayFor(modelItem => item.UpdatedAt)</td>
                 <td>
                     <a asp-controller="ProductImages" asp-action="Create" asp-route-id="@item.ID">Create</a> |
-                    <a asp-controller="ProductImages" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                    <a asp-controller="ProductImages" asp-action="Edit" asp-route-id="@item.ID">Edit</a>
                 </td>
             </tr>
         }

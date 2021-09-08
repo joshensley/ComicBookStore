@@ -1,0 +1,96 @@
+﻿@model ComicBookStore.Models.ViewModels.ProductImageViewModel
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Edit</h1>
+</div>
+
+<div class="mt-5">
+    <form method="post">
+        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+
+        <div class="row d-flex justify-content-center">
+
+            @foreach (var item in Model.ImageUrlWithID)
+            {
+                <div id="@item.ID" class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
+                    <img src="@item.URL" alt="product" class="img-fluid " />
+                    <div class="form-check text-center mb-5">
+                        <input class="form-check-input"
+                               type="checkbox"
+                               value="@item.ID">
+                    </div>
+                </div>
+            }
+        </div>
+
+        @if (Model.ImageUrlWithID.Count == 0)
+        {
+            <div class="form-group row mt-5">
+                <div class="offset-3 col-6 text-center">
+                    No Images
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="form-group row mt-5">
+                <div class="offset-3 col-6">
+                    <input id="btnDelete" type="submit" value="Delete" class="btn btn-danger form-control" />
+                </div>
+            </div>
+        }
+
+
+
+    </form>
+</div>
+
+@section scripts{
+    <script>
+        $("input[type=checkbox]").on("click", function () {
+            if ($(this).attr('checked')) {
+                $(this).removeAttr('checked');
+            } else {
+                $(this).attr('checked', 'checked')
+            }
+        })
+
+        $("#btnDelete").on("click", function () {
+            event.preventDefault();
+
+            let idArray = [];
+            $("input[type = checkbox]").each(function () {
+                if ($(this).attr('checked')) {
+                    idArray.push($(this).val());
+                }
+            })
+
+            if (idArray.length > 0) {
+                var antiForgeryToken = $("input[name=__RequestVerificationToken]").val();
+
+                $.ajax({
+                    url: "/ProductImages/Delete",
+                    type: "POST",
+                    contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                    dataType: "json",
+                    data: {
+                        __RequestVerificationToken: antiForgeryToken,
+                        productImageIds: idArray
+                    },
+                    success: function (result) {
+                        result.forEach(function (id) {
+                            console.log(id);
+                            $(`#${id}`).fadeOut();
+                        });
+                    },
+                    error: function (errorMessage) {
+                        alert(errorMessage.responseText);
+                    }
+                })
+            }
+        })
+    </script>
+ }

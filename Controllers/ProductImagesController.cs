@@ -7,6 +7,7 @@ using Firebase.Auth;
 using Firebase.Storage;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -136,9 +137,81 @@ namespace ComicBookStore.Controllers
             return BadRequest();
         }
 
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            return View();
+            var product = (await _productsService.GetByIdProductDetailDTO(id)).Value;
+
+            if (product == null) return NotFound();
+
+            var auth = new FirebaseAuthProvider(new FirebaseConfig(FirebaseKeys.ApiKey));
+            var a = await auth.SignInWithEmailAndPasswordAsync(FirebaseKeys.AuthEmail, FirebaseKeys.AuthPassword);
+
+            var productImagesURL = new List<ImageUrlWithID>();
+            foreach (var item in product.ProductImages)
+            {
+                var task = new FirebaseStorage(
+                    FirebaseKeys.Bucket,
+                    new FirebaseStorageOptions
+                    {
+                        AuthTokenAsyncFactory = () => Task.FromResult(a.FirebaseToken),
+                        ThrowOnCancel = true
+                    })
+                    .Child("images")
+                    .Child($"{item.ImageFileName}")
+                    .GetDownloadUrlAsync().Result;
+
+                var productImage = new ImageUrlWithID()
+                {
+                    ID = item.ID,
+                    URL = task,
+                    FileName = item.ImageFileName
+                };
+
+                productImagesURL.Add(productImage);
+            }
+
+            ProductImageViewModel productImageViewModel = new ProductImageViewModel()
+            {
+                ProductDTO = product,
+                ProductID = product.ID,
+                ImageUrlWithID = productImagesURL
+            };
+
+            return View(productImageViewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<List<int>> Delete(List<int> productImageIds)
+        {
+            var productImages = await _db.ProductImages
+                .Where(p => productImageIds.Contains(p.ID))
+                .ToListAsync();
+
+            var auth = new FirebaseAuthProvider(new FirebaseConfig(FirebaseKeys.ApiKey));
+            var a = await auth.SignInWithEmailAndPasswordAsync(FirebaseKeys.AuthEmail, FirebaseKeys.AuthPassword);
+
+            foreach (var item in productImages)
+            {
+                var delete = new FirebaseStorage(
+                    FirebaseKeys.Bucket,
+                    new FirebaseStorageOptions
+                    {
+                        AuthTokenAsyncFactory = () => Task.FromResult(a.FirebaseToken),
+                        ThrowOnCancel = true
+                    })
+                    .Child("images")
+                    .Child($"{item.ImageFileName}")
+                    .DeleteAsync();
+
+                await delete;
+            }
+
+            _db.ProductImages.RemoveRange(productImages);
+            await _db.SaveChangesAsync();
+          
+
+            return productImageIds;
         }
     }
 }
