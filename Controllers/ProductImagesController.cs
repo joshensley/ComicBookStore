@@ -127,11 +127,10 @@ namespace ComicBookStore.Controllers
                 _db.Add(productImage);
                 await _db.SaveChangesAsync();
 
-                // Need to delete images in images/firebase/
-                System.IO.File.Delete(filePath);
                 fs.Close();
+                System.IO.File.Delete(filePath);
 
-                RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));
             }
 
             return BadRequest();
