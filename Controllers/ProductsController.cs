@@ -107,19 +107,23 @@ namespace ComicBookStore.Controllers
 
                 await _productsService.Post(product);
 
-                // Post product specification values
-                var productId = product.ID;
-                foreach (var item in model.ProductSpecificationNameValue)
+                if (model.ProductSpecificationNameValue != null)
                 {
-                    var productSpecificationValue = new ProductSpecificationValue()
+                    // Post product specification values
+                    var productId = product.ID;
+                    foreach (var item in model.ProductSpecificationNameValue)
                     {
-                        Value = item.Value == null ? "" : item.Value,
-                        ProductSpecificationID = item.ProductSpecificationID,
-                        ProductID = productId
-                    };
+                        var productSpecificationValue = new ProductSpecificationValue()
+                        {
+                            Value = item.Value == null ? "" : item.Value,
+                            ProductSpecificationID = item.ProductSpecificationID,
+                            ProductID = productId
+                        };
 
-                    await _productSpecificationValueService.Post(productSpecificationValue);
+                        await _productSpecificationValueService.Post(productSpecificationValue);
+                    }
                 }
+               
                 
                 return RedirectToAction(nameof(Index));
             }
