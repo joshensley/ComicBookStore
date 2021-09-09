@@ -1,4 +1,5 @@
 using ComicBookStore.Data;
+using ComicBookStore.Models;
 using ComicBookStore.Repositories;
 using ComicBookStore.Services;
 using Microsoft.AspNetCore.Builder;
@@ -34,9 +35,13 @@ namespace ComicBookStore
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddDefaultTokenProviders()
+                .AddDefaultUI()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
             services.AddControllersWithViews();
+            services.AddRazorPages().AddRazorRuntimeCompilation();
 
             services.AddScoped<IProductTypeRepository, ProductTypeRepository>();
             services.AddScoped<ProductTypeService>();

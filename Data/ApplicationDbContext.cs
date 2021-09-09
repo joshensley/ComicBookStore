@@ -7,12 +7,14 @@ using System.Text;
 
 namespace ComicBookStore.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }
+
+        public DbSet<ApplicationUser> ApplicationUser { get; set; }
 
         public DbSet<CategoryType> CategoryTypes { get; set; }
         public DbSet<ProductType> ProductTypes { get; set; }
