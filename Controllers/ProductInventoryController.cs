@@ -2,6 +2,7 @@
 using ComicBookStore.Models;
 using ComicBookStore.Models.ViewModels;
 using ComicBookStore.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace ComicBookStore.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ProductInventoryController : Controller
     {
         private readonly ApplicationDbContext _db;

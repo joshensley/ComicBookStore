@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using ComicBookStore.Data;
 using ComicBookStore.Models;
 using ComicBookStore.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ComicBookStore.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CategoryTypesController : Controller
     {
         private readonly ApplicationDbContext _context;

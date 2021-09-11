@@ -5,6 +5,7 @@ using ComicBookStore.Services;
 using ComicBookStore.Utility;
 using Firebase.Auth;
 using Firebase.Storage;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,7 @@ using System.Threading.Tasks;
 
 namespace ComicBookStore.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ProductImagesController : Controller
     {
         public readonly IWebHostEnvironment _environment;
