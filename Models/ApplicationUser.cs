@@ -16,5 +16,7 @@ namespace ComicBookStore.Models
         [Required(ErrorMessage = "Last Name is required")]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
+
+        public ICollection<ProductImage> ProductImages { get; set; }
     }
 }

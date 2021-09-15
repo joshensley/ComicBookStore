@@ -15,6 +15,7 @@ namespace ComicBookStore.Data
         }
 
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
+        public DbSet<ProfileImage> ProfileImages { get; set; }
 
         public DbSet<CategoryType> CategoryTypes { get; set; }
         public DbSet<ProductType> ProductTypes { get; set; }
