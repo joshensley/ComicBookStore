@@ -43,6 +43,12 @@ namespace ComicBookStore.Repositories.DTO
         [Display(Name = "Category Type ID")]
         public int CategoryTypeID { get; set; }
 
+        [Display(Name = "In Stock")]
+        public bool InStock { get; set; }
+
+        [Display(Name = "Inventory Units")]
+        public int InventoryUnits { get; set; }
+
         public IEnumerable<ProductSpecificationNameValue> ProductSpecficationNameValue { get; set; }
 
         public IEnumerable<ProductImage> ProductImages { get; set; }
@@ -84,6 +90,12 @@ namespace ComicBookStore.Repositories.DTO
                     ProductTypeName = product.ProductType.Name,
                     ProductTypeID = product.ProductTypeID,
                     CategoryTypeID = product.CategoryTypeID,
+                    InStock = product.ProductInventory
+                        .Where(p => p.InStock == true)
+                        .Any(),
+                    InventoryUnits = product.ProductInventory
+                        .Where(p => p.InStock == true)
+                        .Count(),
                     ProductSpecficationNameValue = product.ProductSpecificationValues
                         .Select(p => new ProductSpecificationNameValue()
                         {
@@ -100,10 +112,10 @@ namespace ComicBookStore.Repositories.DTO
                             IsFeature = p.IsFeature,
                             CreatedAt = p.CreatedAt,
                             UpdatedAt = p.UpdatedAt
-                        })
+                        }),
+
                 };
             }
         }
-
     }
 }

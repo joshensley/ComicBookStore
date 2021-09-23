@@ -55,7 +55,7 @@ namespace ComicBookStore.Controllers
                 var productSpecifications = (await _productSpecificationService.PostProductSpecificationRange(productSpecification)).Value;
 
                 // Finds all products that match productTypeID
-                var products = (await _productsService.GetProductDTOByProductTypeID(id)).Value;
+                var products = (await _productsService.GetProductDTOByProductTypeID(id: id)).Value;
 
                 // Creates new productSpecificationValues for the current products in the database
                 var productSpecificationValues = _productSpecificationService.CreateProductSpecificationValueList(productSpecifications, products);

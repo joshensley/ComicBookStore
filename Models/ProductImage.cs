@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,6 +18,9 @@ namespace ComicBookStore.Models
         [Required]
         [Display(Name = "File Name")]
         public string ImageFileName { get; set; }
+
+        [NotMapped]
+        public string ImageUrl { get; set; }
 
         [Required]
         [Display(Name = "Is Feature")]

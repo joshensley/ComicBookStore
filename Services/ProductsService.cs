@@ -1,6 +1,7 @@
 ﻿using ComicBookStore.Models;
 using ComicBookStore.Repositories;
 using ComicBookStore.Repositories.DTO;
+using ComicBookStore.Utility;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -37,9 +38,13 @@ namespace ComicBookStore.Services
         }
 
         // GET: Get all products by ProductTypeID
-        public async Task<ActionResult<IEnumerable<ProductDTO>>> GetProductDTOByProductTypeID(int id)
+        public async Task<ActionResult<PaginatedList<ProductDTO>>> GetProductDTOByProductTypeID(
+            int id, 
+            int? pageNumer = null)
         {
-            return await _productsRepository.GetByProductTypeId(id, ProductDTO.ProductSelector);
+
+            return await _productsRepository.GetByProductTypeId(id, ProductDTO.ProductDetailSelector, pageNumer);
+
         }
 
         // POST: Post product

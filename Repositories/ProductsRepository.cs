@@ -1,6 +1,7 @@
 ﻿using ComicBookStore.Data;
 using ComicBookStore.Models;
 using ComicBookStore.Repositories.DTO;
+using ComicBookStore.Utility;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -46,14 +47,33 @@ namespace ComicBookStore.Repositories
             return product;
         }
 
-        public async Task<ActionResult<IEnumerable<TResult>>> GetByProductTypeId<TResult>(int id, Expression<Func<Product, TResult>> selector)
+        public async Task<ActionResult<PaginatedList<TResult>>> GetByProductTypeId<TResult>(
+            int id,
+            Expression<Func<Product, TResult>> selector,
+            int? pageNumber)
         {
-            var products = await _db.Products
-                .Where(p => p.ProductTypeID == id)
-                .Select(selector)
-                .ToListAsync();
+            if (pageNumber == null)
+            {
+                IQueryable<TResult> products = _db.Products
+                    .Where(p => p.ProductTypeID == id)
+                    .Select(selector);
 
-            return products;
+                var fullPageSize = await _db.Products
+                    .Where(p => p.ProductTypeID == id)
+                    .CountAsync();
+                
+                return await PaginatedList<TResult>.CreateAsync(products, pageNumber ?? 1, fullPageSize); ;
+            }
+
+            IQueryable<TResult> productsIQ = _db.Products
+                .Where(p => p.ProductTypeID == id)
+                .Select(selector);
+
+            int pageSize = 3;
+            return await PaginatedList<TResult>.CreateAsync(productsIQ, pageNumber ?? 1, pageSize);
+
+
+           
         }
 
         public async Task<ActionResult<Product>> Post(Product product)

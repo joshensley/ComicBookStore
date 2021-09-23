@@ -1,5 +1,6 @@
 ﻿using ComicBookStore.Models;
 using ComicBookStore.Repositories.DTO;
+using ComicBookStore.Utility;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,10 @@ namespace ComicBookStore.Repositories
 
         Task<ActionResult<TResult>> GetById<TResult>(int id, Expression<Func<Product, TResult>> selector);
 
-        Task<ActionResult<IEnumerable<TResult>>> GetByProductTypeId<TResult>(int id, Expression<Func<Product, TResult>> selector);
+        Task<ActionResult<PaginatedList<TResult>>> GetByProductTypeId<TResult>(
+            int id,
+            Expression<Func<Product, TResult>> selector,
+            int? pageNumber);
 
         Task<ActionResult<Product>> Post(Product product);
 
