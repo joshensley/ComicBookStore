@@ -71,8 +71,6 @@ namespace ComicBookStore.Repositories
 
             int pageSize = 3;
             return await PaginatedList<TResult>.CreateAsync(productsIQ, pageNumber ?? 1, pageSize);
-
-
            
         }
 

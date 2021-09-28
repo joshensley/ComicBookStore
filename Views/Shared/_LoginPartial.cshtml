@@ -1,26 +1,117 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+@{ 
+    var user = new ApplicationUser() { };
+    var userId = "";
+    var userName = "";
+}
 
 <ul class="navbar-nav">
-@if (SignInManager.IsSignedIn(User))
-{
-    <li class="nav-item">
-        <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
-    </li>
-    <li class="nav-item">
-        <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button  type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-        </form>
-    </li>
-}
-else
-{
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
-    </li>
-}
+    @if (SignInManager.IsSignedIn(User))
+    {
+        user = await UserManager.GetUserAsync(User);
+        userId = user.Id;
+        userName = user.FirstName;
+        
+        <li id="userId" hidden>@userId</li>
+
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@userName</a>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link text-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-shopping-cart"></i>
+                <span class='badge badge-warning' id='lblCartCount'></span>
+            </a>
+            <ul class="dropdown-menu" id="cartItems" aria-labelledby="navbarDropdown">
+                
+                <li class="text-center ml-2 mr-2">
+                    <div class="dropdown-divider"></div>
+                    <a asp-controller="Cart" asp-action="Index" class="btn btn-sm btn-block btn-primary"><i class="fas fa-shopping-cart"></i> Cart</a>
+                </li>
+            </ul>
+        </li>
+        <li class="nav-item">
+            
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+            </form>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </li>
+    }
 </ul>
+
+
+<script>
+    $(document).ready(function () {
+
+        var userId = $('#userId').html();
+        if (userId !== undefined) {
+
+            var data = {
+                userId: userId
+            }
+
+            $.ajax({
+                url: "/Home/GetCartItems",
+                type: "GET",
+                contentType: "application/json",
+                dataType: "json",
+                data: data,
+                success: function (result) {
+                    console.log(result);
+
+                    // if no items in cart
+                    if (result.length <= 0) {
+                        $('#lblCartCount').html(0);
+                        $('.product-item').remove();
+                        $('#cartItems').prepend(
+                            `<li>
+                                <a class="dropdown-item product-item" href="#">
+                                    No items in cart
+                                </a>
+                             </li>`
+                        )
+                    } else {
+                        // Displays the item count in user cart
+                        var count = result.length;
+                        $('#lblCartCount').html(count);
+
+                        // Displays the item information in dropdown
+                        $.each(result, function (key, value) {
+
+
+                            var cartItemId = value.id;
+                            var productName = value.product.name;
+                            var quantity = value.quantity;
+                            var regularPrice = value.product.regularPrice;
+                            var totalPrice = regularPrice * quantity;
+
+                            $('#cartItems').prepend(
+                                `<li>
+                                <a class="dropdown-item product-item" id="cart-item-${cartItemId}" href="#">
+                                    ${productName}
+                                    <br />
+                                    <small>${quantity} Qty x $${regularPrice} | Total $${totalPrice}</small>
+                                </a>
+                            </li>`
+                            );
+                        });
+                    }
+                },
+                error: function (errorMessage) {
+                    alert(errorMessage.responseText);
+                }
+            })
+        } 
+    })
+</script>

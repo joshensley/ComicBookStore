@@ -14,11 +14,16 @@ namespace ComicBookStore.Controllers
     public class HomeController : Controller
     {
         private readonly ProductTypeService _productTypeService;
+        private readonly CartService _cartService;
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ProductTypeService productTypeService, ILogger<HomeController> logger)
+        public HomeController(
+            ProductTypeService productTypeService, 
+            CartService cartService, 
+            ILogger<HomeController> logger)
         {
             _productTypeService = productTypeService;
+            _cartService = cartService;
             _logger = logger;
         }
 
@@ -32,6 +37,11 @@ namespace ComicBookStore.Controllers
             var productTypes = await _productTypeService.GetProductTypeDTO();
 
             return productTypes;
+        }
+
+        public async Task<ActionResult<List<CartItemDTO>>> GetCartItems(string userId)
+        {
+            return await _cartService.GetCartItemsDTO(userId);
         }
 
         public IActionResult Privacy()

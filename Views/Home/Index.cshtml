@@ -31,10 +31,8 @@
                 contentType: "application/json",
                 dataType: "json",
                 success: function (result) {
-                    console.log(result);
 
                     $.each(result, function (index, value) {
-                        //var name = value.name.replace(/ /g, '');
                         var id = value.id;
 
                         $("#productTypes").append(
